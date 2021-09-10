@@ -3,9 +3,16 @@ import Image from 'next/image'
 import styles from './layout.module.css'
 import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 const name = 'Grand Chachi'
 export const siteTitle = 'Next.js Sample Website'
+
+const variants = {
+  hidden: { opacity: 0 },
+  enter: { opacity: 1 },
+  exit: { opacity: 0 },
+}
 
 export default function Layout({ children, home }) {
   return (
@@ -53,14 +60,24 @@ export default function Layout({ children, home }) {
               </a>
             </Link>
             <h2 className={utilStyles.headingLg}>
-              <Link href="/">
+              <Link href="/" scroll={false}>
                 <a className={utilStyles.colorInherit}>{name}</a>
               </Link>
             </h2>
           </>
         )}
       </header>
-      <main>{children}</main>
+      <main>
+      <motion.main
+        initial="hidden"
+        animate="enter"
+        exit="exit"
+        variants={variants}
+        transition={{ type: 'linear' }}
+        >
+        {children}
+        </motion.main>
+      </main>
       {!home && (
         <div className={styles.backToHome}>
           <Link href="/">
